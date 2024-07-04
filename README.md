@@ -54,5 +54,58 @@ done
 echo "FastQC analysis complete."
 
 This repository contains scripts and data for bulk RNA-seq analysis. The primary scripts included are used to run fastp and FastQC, tools for quality control and preprocessing of high throughput sequence data.
+ ```
+# fastp Analysis
 
+This repository includes scripts and data for bulk RNA-seq analysis, with a focus on using fastp for quality control and preprocessing of high throughput sequencing data.
+
+## fastp Overview
+
+fastp is a tool designed for fast all-in-one preprocessing for FastQ files. It provides extensive statistics and generates visualizations to help researchers quickly evaluate the quality of their sequencing data.
+
+### Script: `run_fastp.sh`
+
+The `run_fastp.sh` script automates the process of running fastp on a set of paired-end FASTQ files.
+
+#### Usage
+
+1. **Directory Structure**:
+   - Place your paired-end FASTQ files in a directory. For example, `/home/tigs/Downloads/venki/Bulk_rna_seq/data`.
+
+2. **Running the Script**:
+   - Ensure the script is executable:
+     ```sh
+     chmod +x run_fastp.sh
+     ```
+   - Execute the script:
+     ```sh
+     ./run_fastp.sh
+     ```
+
+#### Script Details
+
+```bash
+#!/bin/bash
+
+# Directory containing the paired-end FASTQ files
+INPUT_DIR="path to directory"
+
+# Output directory for fastp results
+OUTPUT_DIR="path to directory"
+
+# Create output directory if it doesn't exist
+mkdir -p "$OUTPUT_DIR"
+
+# List of file prefixes to process
+FILES=("SRR5223500" "SRR5223505" "SRR5223522")
+
+# Loop through each file prefix and run fastp
+for file in "${FILES[@]}"; do
+    echo "Processing ${file}_1.fastq and ${file}_2.fastq"
+    fastp -i "$INPUT_DIR/${file}_1.fastq" -I "$INPUT_DIR/${file}_2.fastq" \
+          -o "$OUTPUT_DIR/${file}_1_clean.fastq" -O "$OUTPUT_DIR/${file}_2_clean.fastq" \
+          -h "$OUTPUT_DIR/${file}_fastp.html" -j "$OUTPUT_DIR/${file}_fastp.json"
+done
+
+echo "fastp analysis complete."
 
