@@ -55,7 +55,7 @@ echo "FastQC analysis complete."
 
 This repository contains scripts and data for bulk RNA-seq analysis. The primary scripts included are used to run fastp and FastQC, tools for quality control and preprocessing of high throughput sequence data.
 
-## **fastp Analysis**
+## fastp Analysis
 
 fastp is a tool designed for fast all-in-one preprocessing for FastQ files. It provides extensive statistics and generates visualizations to help researchers quickly evaluate the quality of their sequencing data.
 
