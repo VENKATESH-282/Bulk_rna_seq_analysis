@@ -52,3 +52,56 @@ for file in "${FILES[@]}"; do
 done
 
 echo "FastQC analysis complete."
+
+This repository contains scripts and data for bulk RNA-seq analysis. The primary scripts included are used to run fastp and FastQC, tools for quality control and preprocessing of high throughput sequence data.
+
+## fastp Analysis
+
+fastp is a tool designed for fast all-in-one preprocessing for FastQ files. It provides extensive statistics and generates visualizations to help researchers quickly evaluate the quality of their sequencing data.
+
+### Script: `run_fastp.sh`
+
+The `run_fastp.sh` script automates the process of running fastp on a set of paired-end FASTQ files. It processes multiple pairs of files and generates cleaned FASTQ files along with quality reports.
+
+### Usage
+
+1. **Directory Structure**:
+   - Place your paired-end FASTQ files in a directory. In this example, they are located in `/home/tigs/Downloads/venki/Bulk_rna_seq/data`.
+
+2. **Script Location**:
+   - The script should be placed in an accessible location. You can modify the paths within the script as needed.
+
+3. **Running the Script**:
+   - Ensure the script is executable by running:
+     ```sh
+     chmod +x run_fastp.sh
+     ```
+   - Execute the script:
+     ```sh
+     ./run_fastp.sh
+     ```
+
+### Script Details
+
+```bash
+#!/bin/bash
+
+# Directory containing the paired-end FASTQ files
+INPUT_DIR="/home/tigs/Downloads/venki/Bulk_rna_seq/data"
+
+# Output directory for fastp results
+OUTPUT_DIR="/home/tigs/Downloads/venki/Bulk_rna_seq/OUTPUT_FASTP"
+
+# Create output directory if it doesn't exist
+mkdir -p "$OUTPUT_DIR"
+
+# List of file prefixes to process
+FILES=("SRR5223500" "SRR5223505" "SRR5223522")
+
+# Loop through each file prefix and run fastp
+for file in "${FILES[@]}"; do
+    echo "Processing ${file}_1.fastq and ${file}_2.fastq"
+    fastp -i "$INPUT_DIR/${file}_1.fastq" -I "$INPUT_DIR/${file}_2.fastq" -o "$OUTPUT_DIR/${file}_1_clean.fastq" -O "$OUTPUT_DIR/${file}_2_clean.fastq" -h "$OUTPUT_DIR/${file}_fastp.html" -j "$OUTPUT_DIR/${file}_fastp.json"
+done
+
+echo "fastp analysis complete."
